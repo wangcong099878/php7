@@ -15,7 +15,6 @@ docker run --name=php7-work -t -i --rm=true \
 	-p 3306:3306 \
 	-e MYSQL_LOGIN="test" \
 	-e MYSQL_PASSWORD="test" \
-	--volumes-from docker-data \
 	-v "$DIR"/../etc/nginx/nginx.conf:/etc/nginx/nginx.conf \
 	-v "$DIR"/../etc/nginx/hosts/:/etc/nginx/hosts/ \
 	-v "$DIR"/../etc/php-fpm.conf:/etc/php-fpm.conf \
