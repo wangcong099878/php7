@@ -1,5 +1,7 @@
 #!/bin/sh
 
-docker stop php7-work
-docker rm php7-work
+DIR=$(cd "$(dirname "$0")"; pwd) 
+source $DIR/config.sh
+docker stop $BASE_NAME
+docker rm $BASE_NAME
 

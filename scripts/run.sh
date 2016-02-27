@@ -1,17 +1,19 @@
 #!/bin/sh
 
-DIR="$( cd "$( dirname "$0" )" && pwd )"
+DIR=$(cd "$(dirname "$0")"; pwd) 
+source $DIR/config.sh
 
 ## create docker-data container if does not exist
-#( docker ps -a |grep 'docker-data' >/dev/null ) || ( docker create --name docker-data wangcong/docker-data )
+( docker ps -a |grep 'docker-data' >/dev/null ) || ( docker create --name docker-data wangcong/docker-data )
 
-## delete php7-work container
-( docker ps -a |grep 'php7-work' >/dev/null ) && ( docker rm php7-work )
+## delete $BASE_NAME container
+( docker ps -a |grep '$BASE_NAME' >/dev/null ) && ( docker rm $BASE_NAME )
 
-## start php7-work container
-docker run --name=php7-work -d \
+## start $BASE_NAME container
+docker run --name=$BASE_NAME -d \
 	-e MYSQL_LOGIN="test" \
 	-e MYSQL_PASSWORD="test" \
+	--volumes-from docker-data \
 	-p 80:80 \
 	-p 443:443 \
 	-p 3306:3306 \
@@ -26,4 +28,4 @@ docker run --name=php7-work -d \
 	-v "$DIR"/../www:/home/dev/www \
 	-v "$DIR"/../logs:/home/dev/logs \
 	-v "$DIR"/../.ssh:/home/dev/.ssh \
-        php7-work
+        $IMAGE_ID

@@ -1,20 +1,22 @@
 #!/bin/sh
 
-DIR="$( cd "$( dirname "$0" )" && pwd )"
+DIR=$(cd "$(dirname "$0")"; pwd) 
+source $DIR/config.sh
 
 ## create docker-data container if does not exist
-#( docker ps -a |grep 'docker-data' >/dev/null ) || ( docker run --name docker-data -i -t vukor/docker-data )
+( docker ps -a |grep 'docker-data' >/dev/null ) || ( docker run --name docker-data -i -t wangcong/docker-data )
 
-## delete php7-work container
-( docker ps -a |grep 'php7-work' >/dev/null ) && ( docker rm php7-work )
+## delete $IMAGE_NAME container
+( docker ps -a |grep '$BASE_NAME' >/dev/null ) && ( docker rm $BASE_NAME )
 
-## start php7-work container
-docker run --name=php7-work -t -i --rm=true \
+## start $IMAGE_NAME container
+docker run --name=$BASE_NAME -t -i --rm=true \
 	-p 80:80 \
 	-p 443:443 \
 	-p 3306:3306 \
 	-e MYSQL_LOGIN="test" \
 	-e MYSQL_PASSWORD="test" \
+	--volumes-from docker-data \
 	-v "$DIR"/../etc/nginx/nginx.conf:/etc/nginx/nginx.conf \
 	-v "$DIR"/../etc/nginx/hosts/:/etc/nginx/hosts/ \
 	-v "$DIR"/../etc/php-fpm.conf:/etc/php-fpm.conf \
@@ -25,4 +27,4 @@ docker run --name=php7-work -t -i --rm=true \
 	-v "$DIR"/../etc/postfix/main.cf:/etc/postfix/main.cf \
 	-v "$DIR"/../logs:/home/dev/logs \
 	-v "$DIR"/../.ssh:/home/dev/.ssh \
-	php7-work /bin/bash
+	$IMAGE_ID /bin/bash
