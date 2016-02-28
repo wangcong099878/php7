@@ -2,6 +2,8 @@
 
 BASE_NAME="php7-work"
 TAG_NAME=$1
+
+
 if [ -z "$TAG_NAME" ]
 then
         IMAGE_NAME=$BASE_NAME

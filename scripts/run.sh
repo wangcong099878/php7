@@ -14,10 +14,9 @@ docker run --name=$BASE_NAME -d \
 	-e MYSQL_LOGIN="test" \
 	-e MYSQL_PASSWORD="test" \
 	--volumes-from docker-data \
-	-p 80:80 \
-	-p 443:443 \
-	-p 3306:3306 \
-	-p 122:22 \
+	-p 87:80 \
+	-p 3307:3306 \
+	-p 27:22 \
 	-v "$DIR"/../etc/nginx/nginx.conf:/etc/nginx/nginx.conf \
 	-v "$DIR"/../etc/nginx/hosts/:/etc/nginx/hosts/ \
 	-v "$DIR"/../etc/php-fpm.conf:/etc/php-fpm.conf \

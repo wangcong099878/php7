@@ -11,9 +11,9 @@ source $DIR/config.sh
 
 ## start $IMAGE_NAME container
 docker run --name=$BASE_NAME -t -i --rm=true \
-	-p 80:80 \
-	-p 443:443 \
-	-p 3306:3306 \
+	-p 87:80 \
+	-p 3307:3306 \
+	-p 27:22 \
 	-e MYSQL_LOGIN="test" \
 	-e MYSQL_PASSWORD="test" \
 	--volumes-from docker-data \
